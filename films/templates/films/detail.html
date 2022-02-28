@@ -1,0 +1,156 @@
+{% extends 'films/base.html' %}
+{% load static %}
+{% block title %}{{ film.title }}{% endblock %}
+{% block include %}
+<script>
+    function bottomFunction() {
+            $("html, body").delay(1100).animate({scrollTop:
+                document.body.scrollHeight}, 1000);
+        }
+</script>
+{% endblock %}
+{% block body %}
+    <div class="card mb-3" style="background-color: black;">
+    <div class="back-photo" style="position: relative; height: 40%">
+      <img class="card-img-top" src="{% static 'films/images/bg_2.jpg' %}" alt="Card image cap" style="">
+        <img class="img-fluid" style="position: absolute; width: 20%; height: 85%; left: 40px; bottom: 0; top: 0; margin: auto;" src="{{ film.poster }}" alt="Poster" onerror="this.onerror=null; this.src='{% static 'films/images/default.gif' %}'">
+    </div>
+        <div class="card-body" style="background-color: #1b1b1b">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 text-center text-md-left">
+                    <h1 class="card-title">{{ film.title }}</h1>
+                    <p class="card-text" style="color: white">{% if film.release_date == 0 %}Unknown year{% else %}{{ film.release_date }}{% endif %} &emsp; {{ duration }}</p>
+                    <p style="color: white; font-size: 30px;"><span class="fas fa-star" style="color: gold" aria-hidden="true"></span>&nbsp;{{ film.score|floatformat:1 }} ({{ film.votes }}&nbsp;votes)</p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-center align-self-center">
+                    <div id="comment_container" class="dropdown">
+                        <button class="btn btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: solid 2px #0091ff; color: #0091ff;">
+                            Wanna add review?
+                        </button>
+                    <div class="dropdown-menu dropdown-menu-center" aria-labelledby="dropdownMenuButton" style="margin: 5px; background-color: #1b1b1b; color: white; border: 1px solid black; border-radius: 15px; box-shadow: 3px 3px 30px black;">
+                        <div style="margin: 10px;">
+                            <h3>Rate this film:</h3>
+                        <form action="{% url "films:rated" film.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="rate">
+                                <input  type="radio" name="rating" id="rating10" value="10" required/><label for="rating10" title="10"></label>
+                                <input  type="radio" name="rating" id="rating9" value="9" required/><label for="rating9" title="9"></label>
+                                <input  type="radio" name="rating" id="rating8" value="8" required/><label for="rating8" title="8"></label>
+                                <input  type="radio" name="rating" id="rating7" value="7" required/><label for="rating7" title="7"></label>
+                                <input  type="radio" name="rating" id="rating6" value="6" required/><label for="rating6" title="6"></label>
+                                <input  type="radio" name="rating" id="rating5" value="5" required/><label for="rating5" title="5"></label>
+                                <input  type="radio" name="rating" id="rating4" value="4" required/><label for="rating4" title="4"></label>
+                                <input  type="radio" name="rating" id="rating3" value="3" required/><label for="rating3" title="3"></label>
+                                <input  type="radio" name="rating" id="rating2" value="2" required/><label for="rating2" title="2"></label>
+                                <input  type="radio" name="rating" id="rating1" value="1" required/><label for="rating1" title="1"></label>
+
+                            </div>
+                            <div style="display: flex; align-items: center; flex-direction: column;">
+                                <label for="subject" hidden="hidden"></label>
+                                <input class="form-control" type="text" id="subject" name="subject" placeholder="Title" style="width: 90%;">
+                                <label for="comment" hidden="hidden"></label>
+                                <textarea rows="5" id=comment name="comment" placeholder="Comment" style="resize: none; width: 90%; margin: 10px 0 10px 0; border-radius: 5px"></textarea>
+                            </div>
+                            <div style="width: 90%; margin-right: auto; margin-left: auto;">
+                                {% if user.is_authenticated %}
+                                <input class="btn btn-primary" type="submit" value="Submit" style="border-radius: 10px; float: right;"/>
+                                {% else %}
+                                    <p>You must be logged in to rate this film. <span><a href="{% url 'login' %}">Login now!</a></span></p>
+                                {% endif %}
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card text-center" style="background-color: #1b1b1b; margin-left: 25px; margin-right: 25px; margin-top: 35px; margin-bottom: 50px; border-radius: 15px;">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+          <li class="nav-item" style="border-color: #0091ff">
+            <a class="nav-link active" data-toggle="tab" href="#details">Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#genres">Genres</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#actors" onclick="bottomFunction()">Actors</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#comments">Comments</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body bg-dark" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane active fade show text-left" id="details" role="tabpanel" aria-labelledby="details-tab">
+                <div class="details_info">
+                    <h5 class="disabled" style="color: #0091ff"><span class="fas fa-video" aria-hidden="true"></span>&nbsp;Director:&nbsp;<span style="color: white;">{{ film.director }}</span></h5>
+                </div>
+                <div class="details_info">
+                    <h5 class="disabled" style="color: #0091ff"><span class="fas fa-globe" aria-hidden="true"></span>&nbsp;Country:&nbsp;<span style="color: white">{{ film.country }}</span> </h5>
+                </div>
+                <div class="details_info">
+                    <h5 class="disabled" style="color: #0091ff"><span class="fas fa-calendar-alt" aria-hidden="true"></span>&nbsp;Release year:&nbsp;<span style="color: white">{% if film.release_date == 0 %}Unknown year{% else %}{{ film.release_date }}{% endif %}</span></h5>
+                </div>
+                <div class="details_info">
+                    <h5 class="disabled" style="color: #0091ff"><span class="far fa-clock" aria-hidden="true"></span>&nbsp;Duration:&nbsp;<span style="color: white">{{ duration }}</span></h5>
+                </div>
+                <div class="details_info">
+                    <h5 class="disabled" style="color: #0091ff"><span class="fas fa-star" aria-hidden="true"></span>&nbsp;Score:&nbsp;<span style="color: white">{{ film.score|floatformat:1 }}</span> </h5>
+                </div>
+                <div class="details-info">
+                    <h5 class="disabled" style="color: #0091ff;"><span class="fas fa-plus" aria-hidden="true"></span>&nbsp;Votes:&nbsp;<span style="color: white">{{ film.votes }}</span></h5>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="genres" role="tabpanel" aria-labelledby="genres-tab">
+                <ul style="padding: 2px; margin-bottom: 15px; margin-top: 15px">
+                    {% for genre in genre_list %}
+                            <a role="button" class="btn btn-outline-primary" href="{% url 'films:genre' genre %}?order_by=title&direction=asc"><span class="fas fa-film" aria-hidden="true"></span>&nbsp;{{ genre }}</a>
+                    {% empty %}
+                        <li>Sorry, no info about genre.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="actors" role="tabpanel" aria-labelledby="comment-tab">
+                <ul>
+                    {% for actor in actors_list %}
+                    <li style="list-style-type: none">{{ actor }}</li>
+                    {% empty %}
+                        <li>Sorry, no info about actors.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="contact-tab" style="overflow-y: scroll; height: 300px;">
+                <h4>Reviews</h4><br/>
+                {% for comment in comments %}
+                    <div class="comment_box">
+                        <div style="margin-left: 5px; margin-right: auto; width: 15rem; margin-top: 10px;">
+                            <span class="fas fa-star" {% if comment.rating >= 1 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 2 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 3 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 4 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 5 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 6 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 7 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 8 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 9 %}style="color: gold"{% endif %}></span>
+                            <span class="fas fa-star" {% if comment.rating >= 10 %}style="color: gold"{% endif %}></span>
+                        </div>
+                        <div style="margin-left: 17px; margin-right: auto; text-align: left; margin-top: 5px;">
+                            <h5 style="font-weight: 700;">{{ comment.subject }}</h5>
+                            <p style="color: lightgray; font-size: x-small; margin-top: 5px;">{{ comment.user }} &emsp; {{ comment.edit_t }}</p>
+                            <p style="margin-right: 5px; hyphens: auto;">{{ comment.comment }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+      </div>
+    </div>
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+{% endblock %}

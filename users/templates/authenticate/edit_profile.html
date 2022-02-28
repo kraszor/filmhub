@@ -1,0 +1,35 @@
+{% extends 'films/base.html'%}
+{% block title %}Edit profile{% endblock %}
+{% block body %}
+    {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                There was an error with your form!
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+    {% endif %}
+    <div class="form_container">
+    <h1>Edit profile</h1>
+    <br/>
+    <form method="POST">
+        {% csrf_token %}
+{#        <div class="form-group"><span class="text-danger small">{{ form.errors }}</span></div>#}
+        {% for field in form %}
+            <div class="fieldWrapper">
+                <span class="text-danger small">{{ field.errors }}</span>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="form-text text-muted">{{ field.help_text|safe }}</div>
+                {% endif %}
+            <br/>
+            </div>
+        {% endfor %}
+         <div style="display: flex; justify-content: right;">
+            <br/><input type="submit" value="Submit" class="btn btn-primary" style="margin: 15px 15px 15px auto; padding: 8px 15px 8px 15px">
+             <a href="{% url 'change_password' %}" role="button" class="btn btn-primary" style="margin: 15px 15px 15px 10px; padding: 8px 15px 8px 15px">Change&nbsp;password</a>
+         </div>
+    </form>
+    </div>
+{% endblock %}

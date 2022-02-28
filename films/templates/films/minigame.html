@@ -1,0 +1,40 @@
+{% extends 'films/base.html' %}
+{% block title %}Hangman{% endblock %}
+{% load static %}
+{% block include %}
+<script>
+    var title = "{{ random_film.title }}";
+    title = title.toUpperCase()
+</script>
+<script>
+var text = `<div class="card border-dark text-white mb-3 p-2" style="max-width: 18rem; background-color: #1b1b1b; min-width: 280px;">\
+ <img class="card-img-top" src="{{ random_film.poster }}" alt="Poster" onerror="this.onerror=null; this.src='{% static "films/images/default.gif" %}'" width="250" height="350">\
+ <div class="card-body border-primary" style="padding-bottom: 2px;">\
+ <h5>{{ random_film.title}} {% if random_film.release_date == 0 %}(Unknown year){% else %}({{ random_film.release_date }}){% endif %}</h5>\
+ <h6>Score: {{ random_film.score|floatformat:"1" }}&nbsp;\
+ <span class="fas fa-star" aria-hidden="true"></span>\
+ ({{ random_film.votes }}&nbsp;votes)</h6>\
+ </div> \
+ <div class="card-footer bg-transparent text-center justify-self-end align-items-center" style="border-color: #0091ff; padding-bottom: 2px;">\
+ <a href="{% url 'films:detail' random_film.id %}" class="btn btn-outline-primary stretched-link" role="button">\
+ <span class="fas fa-info" aria-hidden="true"></span>&nbsp;Details</a>\
+ </div>\
+ </div>`;
+</script>
+<script type="text/javascript" src="{% static "films/hangman.js" %}"></script>
+{% endblock %}
+{% block body %}
+{#    <h5 style="text-align: center">{{ random_film.title }}</h5>#}
+    <div id="hangman_container">
+        <div id="title"></div>
+        <div id="hangman">
+            <img class="hangman_img" src="{% static "films/images/img/s0.jpg" %}", alt=""/>
+        </div>
+        <div id="separator"></div>
+        <div id="alphabet"></div>
+        <div style="clear: both;"></div>
+        <div id="result_info"></div>
+        <div id="result_card"></div>
+        <div id="again"></div>
+    </div>
+{% endblock %}

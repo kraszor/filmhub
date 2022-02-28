@@ -1,0 +1,31 @@
+<ul class="pagination justify-content-center flex-wrap">
+    {% if visible_films.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1&order_by={{ order_by }}&direction={{ direction }}"><span class="fa fa-angle-double-left" aria-hidden="true"></span>&nbsp;</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ visible_films.previous_page_number }}&order_by={{ order_by }}&direction={{ direction }}"><span class="fa fa-angle-left" aria-hidden="true"></span></a></li>
+    {% else %}
+        <li class="page-item disabled"><a class="page-link"><span class="fa fa-angle-double-left" aria-hidden="true"></span></a></li>
+        <li class="page-item disabled"><a class="page-link"><span class="fa fa-angle-left" aria-hidden="true"></span></a></li>
+    {% endif %}
+    {% if visible_films.number|add:'-3' > 1 %}
+        <li class="page-item"><a class="page-link" href="?page={{ visible_films.number|add:'-4' }}&order_by={{ order_by }}&direction={{ direction }}"><span class="fas fa-ellipsis-h"></span></a></li>
+    {% endif %}
+
+    {% for i in visible_films.paginator.page_range %}
+        {% if visible_films.number == i %}
+            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% elif i > visible_films.number|add:'-4' and i < visible_films.number|add:'4' %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}&order_by={{ order_by }}&direction={{ direction }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if visible_films.paginator.num_pages > visible_films.number|add:'3' %}
+        <li class="page-item"><a class="page-link" href="?page={{ visible_films.number|add:'4' }}&order_by={{ order_by }}&direction={{ direction }}"><span class="fas fa-ellipsis-h"></span></a></li>
+    {% endif %}
+
+    {% if visible_films.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ visible_films.next_page_number }}&order_by={{ order_by }}&direction={{ direction }}"><span class="fa fa-angle-right" aria-hidden="true"></span></a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ visible_films.paginator.num_pages }}&order_by={{ order_by }}&direction={{ direction }}"><span class="fa fa-angle-double-right" aria-hidden="true"></span></a></li>
+    {% else %}
+        <li class="page-item disabled"><a class="page-link"><span class="fa fa-angle-right" aria-hidden="true"></span></a></li>
+        <li class="page-item disabled"><a class="page-link"><span class="fa fa-angle-double-right" aria-hidden="true"></span></a></li>
+    {% endif %}
+</ul>

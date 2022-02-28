@@ -1,0 +1,38 @@
+{% extends 'films/base.html'%}
+{% block title %}My account{% endblock %}
+{% block body %}
+    <div class="form_container">
+    <h1>Profile</h1>
+    <br/>
+    <form>
+      <div class="form-group row" style="margin: 0 10px 16px 10px ;">
+        <label for="staticUsername" class="col-sm-3 col-md-2 col-lg-1 col-form-label">Username</label>
+        <div class="col-sm-9 col-md-10 col-lg-11">
+          <input style="margin-left: 10px;" type="text" readonly class="form-control" id="staticUsername" value="{{ user }}">
+        </div>
+      </div>
+      <div class="form-group row" style="margin: 0 10px 16px 10px ;">
+        <label for="staticFirstName" class="col-sm-3 col-md-2 col-lg-1 col-form-label">First&nbsp;name</label>
+        <div class="col-sm-9 col-md-10 col-lg-11">
+          <input style="margin-left: 10px;" type="text" readonly class="form-control" id="staticFirstName" value="{{ user.first_name }}">
+        </div>
+      </div>
+        <div class="form-group row" style="margin: 0 10px 16px 10px ;">
+        <label for="staticLastName" class="col-sm-3 col-md-2 col-lg-1 col-form-label">Last&nbsp;name</label>
+        <div class="col-sm-9 col-md-10 col-lg-11">
+          <input style="margin-left: 10px;" type="text" readonly class="form-control" id="staticLastName" value="{{ user.last_name }}">
+        </div>
+      </div>
+        <div class="form-group row" style="margin: 0 10px 16px 10px ;">
+        <label style="word-break: keep-all" for="staticEmail" class="col-sm-3 col-md-2 col-lg-1 col-form-label">E-mail</label>
+        <div class="col-sm-9 col-md-10 col-lg-11">
+          <input style="margin-left: 10px;" type="text" readonly class="form-control" id="staticEmail" value="{{ user.email }}">
+        </div>
+      </div>
+
+    </form>
+        <div style="display: flex; justify-content: right;">
+            <br/><a href="{% url 'edit' %}" role="button" class="btn btn-primary" style="margin: 15px 15px 15px auto; padding: 8px 15px 8px 15px"><span class="fas fa-edit"></span>&nbsp;Edit</a>
+        </div>
+    </div>
+{% endblock %}

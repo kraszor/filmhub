@@ -1,0 +1,40 @@
+<button onclick="topFunction()"  id="my_btn">
+    <span class="fas fa-angle-up"></span>
+</button>
+<style>
+    #my_btn {
+  display: none;
+  position: fixed;
+  z-index: 99;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background-color: #0091ff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 30px;
+  width: 30px;
+  left: 1%;
+  bottom: 2%;
+  padding: 2px;
+}
+</style>
+<script>
+    var my_button = document.getElementById("my_btn")
+
+    window.onscroll = function() {scrollFunction()}
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+            my_button.style.display = "block";
+        }
+        else {
+            my_button.style.display = "none";
+        }
+    }
+
+    function topFunction() {
+        $("html, body").animate({scrollTop: 0}, 500);
+    }
+</script>

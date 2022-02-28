@@ -1,0 +1,41 @@
+{% extends 'films/base.html' %}
+{% block title %}Search: "{{ search }}"{% endblock %}
+{% load static %}
+{% block body %}
+{% if search %}
+{% if results %}
+    <div id="search_header">
+        <h1>Results for: "{{ search }}"</h1>
+    </div>
+    <div id="search_container">
+        {% for elem in results %}
+            <div class="searched" onclick="location.href='{% url "films:detail" elem.id %}';" style="cursor: pointer;">
+{#                <a class="overlay" href="{% url 'films:detail' elem.id %}"></a>#}
+                <div class="search_poster">
+                    <img class="search_img" src="{{ elem.poster }}" alt="Poster" onerror="this.onerror=null; this.src='{% static 'films/images/default.gif' %}'">
+                </div>
+                <div class="search_desc">
+                    <h5 style="font-weight: 700; margin-bottom: 0px;">{{ elem.title }} ({{ elem.release_date }})</h5>
+                    <span style="color: lightgray; font-size: x-small; margin-top: 5px;">{{ elem.genre }}</span>
+                    <span style="color: lightgray; font-size: x-small; margin-top: 5px;">{{ elem.director }}</span>
+                    <span class="fas fa-star" style="color: lightgray; font-size: small; margin-top: 5px;" aria-hidden="true">&nbsp;{{ elem.score|floatformat:1 }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+    <div class="head_box">
+        <div class="p-5 text-center bg-black">
+            <h1 class="mb-3">Nothing was found with query: "{{ search }}"</h1>
+        </div>
+    </div>
+{% endif %}
+{% else %}
+    <div class="head_box">
+        <div class="p-5 text-center bg-black">
+            <h1 class="mb-3">You forgot to enter a query!</h1>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

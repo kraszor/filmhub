@@ -1,0 +1,8 @@
+{% extends 'films/base.html' %}
+{% block title %}Top 100{% endblock %}
+{% block body %}
+    <div class="p-5 text-center bg-black">
+        <h1 class="mb-3" style="font-family: Roboto">Top 100</h1>
+    </div>
+    {% include 'films/cards.html' with films_db=top100 header="Top 100"%}
+{% endblock %}

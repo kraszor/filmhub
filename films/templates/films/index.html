@@ -1,0 +1,7 @@
+{% extends 'films/base.html'%}
+{% block body %}
+    <div class="p-5 text-center bg-black">
+        <h1 class="mb-3" style="font-family: Roboto">The latest releases</h1>
+    </div>
+    {% include 'films/cards.html' with films_db=films_db %}
+{% endblock %}

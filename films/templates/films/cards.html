@@ -1,0 +1,26 @@
+{% load static %}
+    {% if films_db %}
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for film in films_db %}
+                <div class="col-xs-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                    <div class="card border-dark text-white mb-3 p-2" style="max-width: 18rem; background-color: #1b1b1b; width: 280px;">
+                        <img class="card-img-top" src="{{ film.poster }}" alt="Poster" onerror="this.onerror=null; this.src='{% static 'films/images/default.gif' %}'" width="240" height="330">
+                        <div class="card-body border-primary">
+                            <h5>{{ film.title }} {% if film.release_date == 0 %}(Unknown year){% else %}({{ film.release_date }}){% endif %}</h5>
+                            <h6>Score: {{ film.score|floatformat:1 }}&nbsp;
+                            <span class="fas fa-star" aria-hidden="true"></span>
+                            ({{ film.votes }}&nbsp;votes)</h6>
+                        </div>
+                        <div class="card-footer bg-transparent text-center" style="border-color: #0091ff; border-top: 0px;">
+                            <a href="{% url 'films:detail' film.id %}" class="btn btn-outline-primary stretched-link" role="button">
+                                    <span class="fas fa-info" aria-hidden="true"></span>&nbsp;Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <h1>Ups! There are no films!</h1>
+    {% endif %}

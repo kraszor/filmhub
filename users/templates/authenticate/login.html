@@ -1,0 +1,24 @@
+{% extends 'films/base.html'%}
+{% block title %}Login{% endblock %}
+{% block body %}
+    <div class="form_container">
+    <h1>Login</h1>
+    <br/>
+    <form action="" method="POST">
+        {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="textl" class="form-control" name="username" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <div style="display: flex; justify-content: right;">
+            <input type="submit" value="Submit" class="btn btn-primary" style="margin: 15px 15px 15px auto; padding: 8px 15px 8px 15px">
+            <a href="{% url 'reset_password' %}" role="button" class="btn btn-primary" style="margin: 15px 15px 15px 10px; padding: 8px 15px 8px 15px">Forgot password?</a>
+        </div>
+    </form>
+    </div>
+{% endblock %}

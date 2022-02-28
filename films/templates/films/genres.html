@@ -1,0 +1,13 @@
+{% extends 'films/base.html' %}
+{% block title %}{{ genre }}{% endblock %}
+{% block body %}
+    <div class="head_box">
+        <div class="p-5 text-center bg-black">
+            <h1 class="mb-3" style="font-family: Roboto">{{ genre }}</h1>
+            <h5 class="mb-3">Page {{ visible_films.number }} of {{ visible_films.paginator.num_pages }}</h5>
+        </div>
+        {% include 'films/sorting.html' %}
+    </div>
+    {% include 'films/cards.html' with films_db=visible_films %}
+    {% include 'films/paginator.html' with visible_films=visible_films order_by=order_by direction=direction%}
+{% endblock %}

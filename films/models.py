@@ -6,12 +6,12 @@ from django.contrib.auth.models import User
 class Film(models.Model):
     title = models.CharField(_("title"), max_length=150, default=None)
     release_date = models.IntegerField(_("year"), default=None)
-    genre = models.CharField(_("genre"), max_length=200, default=None)  # musi byc oddzielne przegladnie po rodzajach
+    genre = models.CharField(_("genre"), max_length=250, default=None)  # musi byc oddzielne przegladnie po rodzajach
     duration = models.IntegerField(_("duration"), default=None)
-    country = models.CharField(_("country"), max_length=50, default=None)
+    country = models.CharField(_("country"), max_length=250, default=None)
     director = models.CharField(_("director"), max_length=70, default=None)  # oceny dla rezyserów??
     actors = models.CharField(_("actors"), max_length=1000, default=None)
-    score = models.DecimalField(_("avg_vote"), decimal_places=3, max_digits=4, default=None)
+    score = models.DecimalField(_("avg_vote"), decimal_places=3, max_digits=5, default=None)
     votes = models.IntegerField(_("votes"), default=None)
     poster = models.URLField(_("poster"), max_length=2000, default=None)
     # rated = models.IntegerField(default=None)
